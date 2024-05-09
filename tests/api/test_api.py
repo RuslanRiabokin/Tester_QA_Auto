@@ -1,17 +1,4 @@
-import pytest
-
-
-class User:
-
-    def __init__(self) -> None:
-        self.name = "Sergii"
-        self.second_name = "Butenko"
-
-
-@pytest.fixture
-def user():
-    yield User()
-
+# У файлі test_api.py
 
 def test_remove_name(user):
     user.name = ''
