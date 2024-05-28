@@ -14,3 +14,23 @@ def test_check_all_users():
     users = db.get_all_users()
 
     print(users)
+
+
+@pytest.mark.database
+def test_check_user_sergii():
+    db = Database()
+    user = db.get_user_address_by_name('Sergii')
+
+    assert user[0][0] == 'Maydan Nezalezhnosti 1'
+    assert user[0][1] == 'Kyiv'
+    assert user[0][2] == '3127'
+    assert user[0][3] == 'Ukraine'
+
+
+@pytest.mark.database
+def test_product_qnt_update():
+    db = Database()
+    db.update_product_qnt_by_id(1, 25)
+    water_qnt = db.select_product_qnt_by_id(1)
+
+    assert water_qnt[0][0] == 25
