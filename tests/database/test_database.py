@@ -1,4 +1,5 @@
 import pytest
+import sqlite3
 from modules.common.database import Database
 
 
@@ -67,3 +68,21 @@ def test_detailed_orders():
     assert orders[0][1] == 'Sergii'
     assert orders[0][2] == 'солодка вода'
     assert orders[0][3] == 'з цукром'
+
+
+
+# My tests
+@pytest.mark.database
+def test_insert_product_luscious_invalid_quantity():
+    db = Database()
+
+    invalid_quantities = ['aa', '1.5', '-5', '5a', '', None]
+
+    for invalid_qnt in invalid_quantities:
+        with pytest.raises(ValueError) as excinfo:
+            db.insert_product_luscious(5, 'печиво овсяне', 'солодке', invalid_qnt)
+
+        assert f"Invalid quantity: {invalid_qnt}. Quantity must be an integer." in str(excinfo.value)
+        print(f"Test passed for invalid quantity: {invalid_qnt}")
+
+
