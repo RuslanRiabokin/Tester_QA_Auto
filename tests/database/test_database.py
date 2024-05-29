@@ -79,6 +79,10 @@ def test_insert_product_invalid_quantity(invalid_quantity):
     with pytest.raises(ValueError) as excinfo:
         db.insert_product(5, 'печиво овсяне', 'солодке', invalid_quantity)
 
+@pytest.mark.database
+def test_insert_product_name(name_text):
+    db = Database()
 
+    db.insert_product(6, name_text, 'солодке', 15)
 
 

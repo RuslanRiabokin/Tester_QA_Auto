@@ -40,9 +40,13 @@ class Database():
         record = self.cursor.fetchall()
         return record
 
-    def insert_product(self, product_id, name, description, qnt):
-        query = f"INSERT OR REPLACE INTO products (id, name, description, quantity) \
-            VALUES ({product_id}, '{name}', '{description}', {qnt})"
+    def insert_product(self, product_id, name, description, qnt, replace = True):
+        if replace:
+            query = f"INSERT OR REPLACE INTO products (id, name, description, quantity) \
+                VALUES ({product_id}, '{name}', '{description}', {qnt})"
+        else:
+            query = f"INSERT INTO products (id, name, description, quantity) \
+                            VALUES ({product_id}, '{name}', '{description}', {qnt})"
 
         try:
             self.cursor.execute(query)
