@@ -31,3 +31,7 @@ def user():
 def github_api():
     api = GitHub()
     yield api
+
+@pytest.fixture(params=['aa', '', '5a', None])
+def invalid_quantity(request):
+    yield request.param

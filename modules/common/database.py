@@ -69,14 +69,3 @@ class Database():
 
 
 # My tests
-    def insert_product_luscious(self, product_id, name, description, qnt):
-        if not re.match(r'^\d+$', str(qnt)):
-            raise ValueError(f"Invalid quantity: {qnt}. Quantity must be an integer.")
-
-        query = f"INSERT OR REPLACE INTO products (id, name, description, quantity) \
-            VALUES ({product_id}, '{name}', '{description}', {qnt})"
-        try:
-            self.cursor.execute(query)
-            self.connection.commit()
-        except sqlite3.OperationalError as e:
-            raise ValueError(f"Failed to insert product due to database error: {e}") from e
