@@ -76,13 +76,23 @@ def test_detailed_orders():
 def test_insert_product_invalid_quantity(invalid_quantity):
     db = Database()
 
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(sqlite3.OperationalError) as excinfo:
         db.insert_product(5, 'печиво овсяне', 'солодке', invalid_quantity)
 
 @pytest.mark.database
 def test_insert_product_name(name_text):
     db = Database()
 
-    db.insert_product(6, name_text, 'солодке', 15)
+    db.insert_product(6, name_text, 'солоне', 15)
+
+@pytest.mark.database
+def test_insert_product_invalid_id():
+    db = Database()
+    invalid_id = 7
+
+    with pytest.raises(sqlite3.IntegrityError) as excinfo:
+        db.insert_product(invalid_id, 'цукерки', 'шоколадні', 100, False)
+
+
 
 

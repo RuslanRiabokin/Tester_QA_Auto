@@ -37,6 +37,6 @@ def github_api():
 def invalid_quantity(request):
     yield request.param
 
-@pytest.fixture(params=['text', None, GitHub(), 67])
+@pytest.fixture(params=['text', None, GitHub(), 'печиво'])
 def name_text(request):
     yield request.param

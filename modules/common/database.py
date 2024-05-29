@@ -48,11 +48,8 @@ class Database():
             query = f"INSERT INTO products (id, name, description, quantity) \
                             VALUES ({product_id}, '{name}', '{description}', {qnt})"
 
-        try:
-            self.cursor.execute(query)
-            self.connection.commit()
-        except sqlite3.OperationalError as e:
-            raise ValueError(f"Failed to insert product due to database error: {e}") from e
+        self.cursor.execute(query)
+        self.connection.commit()
 
 
     def delete_product_by_id(self, product_id):
