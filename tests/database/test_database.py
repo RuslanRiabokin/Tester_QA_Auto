@@ -59,7 +59,6 @@ def test_product_delete():
 def test_detailed_orders():
     db = Database()
     orders = db.get_detailed_orders()
-    print("Замовлення", orders)
     # Check quantity of orders equal to 1
     assert len(orders) == 2
 
@@ -98,7 +97,6 @@ def test_insert_product_duplicate_id(db):
 def test_add_to_table_orders(db):
     db.insert_orders(2, 2, 3, '2024-05-29 10:00:00')
     orders = db.get_detailed_orders()
-    print("Замовлення", orders)
     # Check quantity of orders equal to 2
     assert len(orders) == 2
 
@@ -107,3 +105,10 @@ def test_add_to_table_orders(db):
     assert orders[1][1] == 'Stepan'
     assert orders[1][2] == 'молоко'
     assert orders[1][3] == 'натуральне незбиране'
+
+@pytest.mark.database
+def test_insert_incorrect_id_orders(db):
+    with pytest.raises(sqlite3.IntegrityError) as excinfo:
+        db.insert_orders(2, 2, 99, '2024-05-29 10:00:00')
+
+

@@ -7,6 +7,8 @@ class Database():
 
     def __init__(self):
         self.connection = sqlite3.connect('become_qa_auto.db')
+        self.connection.execute('PRAGMA foreign_keys = 1')
+        self.connection.commit()
         self.cursor = self.connection.cursor()
 
     def test_connection(self):
@@ -81,3 +83,4 @@ class Database():
         except:
             self.connection.rollback()
             raise
+
