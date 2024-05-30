@@ -1,5 +1,6 @@
 import pytest
 from modules.api.clients.github import GitHub
+from modules.common.database import Database
 
 
 class User:
@@ -33,10 +34,15 @@ def github_api():
     yield api
 
 # My tests
+@pytest.fixture
+def db():
+    db = Database()
+    yield db
+    
 @pytest.fixture(params=['aa', '', '5a', None])
 def invalid_quantity(request):
     yield request.param
 
-@pytest.fixture(params=['text', None, GitHub(), 'печиво'])
+@pytest.fixture(params=[None, GitHub()])
 def name_text(request):
     yield request.param

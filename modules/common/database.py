@@ -42,15 +42,17 @@ class Database():
 
     def insert_product(self, product_id, name, description, qnt, replace = True):
         if replace:
-            query = f"INSERT OR REPLACE INTO products (id, name, description, quantity) \
-                VALUES ({product_id}, '{name}', '{description}', {qnt})"
+            query = "INSERT OR REPLACE INTO products (id, name, description, quantity) \
+                VALUES (?, ?, ?, ?)"
         else:
-            query = f"INSERT INTO products (id, name, description, quantity) \
-                            VALUES ({product_id}, '{name}', '{description}', {qnt})"
-
-        self.cursor.execute(query)
-        self.connection.commit()
-
+            query = "INSERT INTO products (id, name, description, quantity) \
+                            VALUES (?, ?, ?, ?)"
+        try:
+            self.cursor.execute(query, (product_id, name, description, qnt))
+            self.connection.commit()
+        except:
+            self.connection.rollback()
+            raise
 
     def delete_product_by_id(self, product_id):
         query = f"DELETE FROM products WHERE id = {product_id}"
@@ -69,4 +71,13 @@ class Database():
         return record
 
 
-# My tests
+    # My tests
+    def insert_orders(self, id, customer_id, product_id, order_date):
+        query = "INSERT OR REPLACE INTO orders (id, customer_id, product_id, order_date) \
+         VALUES (?, ?, ?, ?);"
+        try:
+            self.cursor.execute(query, (id, customer_id, product_id, order_date))
+            self.connection.commit()
+        except:
+            self.connection.rollback()
+            raise

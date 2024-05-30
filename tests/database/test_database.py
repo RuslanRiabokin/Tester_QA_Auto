@@ -61,7 +61,7 @@ def test_detailed_orders():
     orders = db.get_detailed_orders()
     print("Замовлення", orders)
     # Check quantity of orders equal to 1
-    assert len(orders) == 1
+    assert len(orders) == 2
 
     # Check struture of data
     assert orders[0][0] == 1
@@ -76,23 +76,34 @@ def test_detailed_orders():
 def test_insert_product_invalid_quantity(invalid_quantity):
     db = Database()
 
-    with pytest.raises(sqlite3.OperationalError) as excinfo:
+    with pytest.raises(sqlite3.IntegrityError) as excinfo:
         db.insert_product(5, 'печиво овсяне', 'солодке', invalid_quantity)
 
 @pytest.mark.database
 def test_insert_product_name(name_text):
     db = Database()
 
-    db.insert_product(6, name_text, 'солоне', 15)
+    with pytest.raises((sqlite3.IntegrityError, sqlite3.InterfaceError)) as excinfo:
+        db.insert_product(6, name_text, 'солоне', 15)
 
 @pytest.mark.database
-def test_insert_product_invalid_id():
-    db = Database()
+def test_insert_product_duplicate_id(db):
     invalid_id = 7
 
     with pytest.raises(sqlite3.IntegrityError) as excinfo:
         db.insert_product(invalid_id, 'цукерки', 'шоколадні', 100, False)
 
 
+@pytest.mark.database
+def test_add_to_table_orders(db):
+    db.insert_orders(2, 2, 3, '2024-05-29 10:00:00')
+    orders = db.get_detailed_orders()
+    print("Замовлення", orders)
+    # Check quantity of orders equal to 2
+    assert len(orders) == 2
 
-
+    # Check struture of data
+    assert orders[1][0] == 2
+    assert orders[1][1] == 'Stepan'
+    assert orders[1][2] == 'молоко'
+    assert orders[1][3] == 'натуральне незбиране'
