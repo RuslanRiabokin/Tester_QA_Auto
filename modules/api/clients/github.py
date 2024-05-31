@@ -16,3 +16,15 @@ class GitHub:
         body = r.json()
 
         return body
+
+    # My tests
+    def get_emoji(self):
+        url = "https://api.github.com/emojis"
+
+        response = requests.get(url)
+
+        if response.status_code != 200:
+            raise Exception(f"Error fetching emojis: {response.status_code}")
+
+        body = response.json()
+        return body
