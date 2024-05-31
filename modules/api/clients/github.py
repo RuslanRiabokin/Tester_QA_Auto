@@ -1,5 +1,8 @@
 import requests
 
+def Summa(a, b, c = 0):
+    sum = a + b + c
+    return sum
 
 class GitHub:
     def get_user(self, username):
@@ -18,13 +21,14 @@ class GitHub:
         return body
 
     # My tests
-    def get_emoji(self):
+    def get_emoji(self, headers):
         url = "https://api.github.com/emojis"
 
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
 
         if response.status_code != 200:
             raise Exception(f"Error fetching emojis: {response.status_code}")
 
         body = response.json()
         return body
+

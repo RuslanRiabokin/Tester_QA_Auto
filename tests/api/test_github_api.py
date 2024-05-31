@@ -34,13 +34,22 @@ def test_repo_with_single_char_be_found(github_api):
 # My tests
 @pytest.mark.api
 def test_get_emoji(github_api):
-    emojis = github_api.get_emoji()
+    emojis = github_api.get_emoji({})
     assert "100" in emojis, "Emoji '100' not found in the response"
     assert emojis["100"] == "https://github.githubassets.com/images/icons/emoji/unicode/1f4af.png?v8",\
         "URL for emoji '100' does not match"
     # Проверяем наличие "100" emojis
 @pytest.mark.api
 def test_get_emoji_not_present(github_api):
-    emojis = github_api.get_emoji()
-    assert "100A" not in emojis, "Emoji '100A' found in the response, but it should not be present"
+    emojis = github_api.get_emoji({})
+    assert "100A" not in emojis, "Emoji '100A' it should not be present"
     # Проверяем отсутствие "100А" emojis
+
+@pytest.mark.api
+def test_get_emoji_auth(github_api):
+    headers = {
+        'Authorization': 'Bearer <YOUR-TOKEN>'
+    }
+
+    with pytest.raises(Exception) as excinfo:
+        github_api.get_emoji(headers)
