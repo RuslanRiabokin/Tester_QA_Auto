@@ -53,3 +53,38 @@ def test_get_emoji_auth(github_api):
 
     with pytest.raises(Exception) as excinfo:
         github_api.get_emoji(headers)
+
+@pytest.mark.api
+def test_get_commits(github_api):
+    owner = "RuslanRiabokin"
+    repo = "-hat_bot"
+
+    with pytest.raises(Exception) as excinfo:
+        github_api.get_commits(owner, repo)
+
+    assert "Error fetching commits: 404" in str(excinfo.value)
+
+
+@pytest.mark.api
+def test_get_commits_Unauthorized(github_api):
+    owner = "RuslanRiabokin"
+    repo = "-hat_bot"
+    headers = {
+        'Authorization': 'Bearer <YOUR-TOKEN>'
+    }
+    with pytest.raises(Exception) as excinfo:
+        github_api.get_commits(owner, repo, headers)
+
+    assert "Error fetching commits: 401" in str(excinfo.value)
+
+@pytest.mark.api
+def test_get_commits_exist(github_api):
+    owner = "RuslanRiabokin"
+    repo = "Tester_QA_Auto"
+
+    commits = github_api.get_commits(owner, repo)
+    assert len(commits) > 0, "No commits found"
+
+    last_commit = commits[-1] ["sha"]
+    print(last_commit)
+    assert commits[-1] ["sha"] == "f19d98577cf55aec37efeef1d166824dad2aa44e"
