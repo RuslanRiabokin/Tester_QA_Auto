@@ -24,7 +24,7 @@ class SignInPage(BasePage):
         # Вводимо неправильний пароль
         pass_elem.send_keys(password)
 
-        # Знаходимо кнопку sign in
+        # Знаходимо кнопку поіск
         btn_elem = self.driver.find_element(By.NAME, "commit")
 
         # Емулюємо клік лівою кнопкою мишки

@@ -10,6 +10,7 @@ class NpSearchInPage(BasePage):
 
     def go_to(self):
         self.driver.get(self.URL)
+        self.driver.refresh()  # Перевантаження сторінки після її завантаження
 
     def enter_the_invoice_number(self, number):
         # Знаходимо поле, номер накладної
@@ -18,8 +19,23 @@ class NpSearchInPage(BasePage):
         # Вводимо номер накладної
         invoice_number.send_keys(number)
 
-        time.sleep(10)
+    def click_xpath(self, xpath):
+        # Знаходимо кнопку по XPATH та Емулюємо клік лівою кнопкою мишки
+        # self.driver.find_element(By.XPATH, '//*[@id="top_block"]/div[1]/div/div[2]/form/input[2]').click()
+        self.driver.find_element(By.XPATH, xpath).click()
 
-        # Закрываем браузер
-        self.driver.quit()
+    def get_status_text(self):
+        # Знаходимо элемент с текстом статусу
+        status_element = self.driver.find_element(By.XPATH, '//*[@id="chat"]/header/div[2]/div[2]/div[2]')
+
+        # Получаемо текст із элемента
+        status_text = status_element.text
+
+        return status_text
+
+
+
+
+
+
 
