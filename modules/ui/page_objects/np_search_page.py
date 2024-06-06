@@ -21,7 +21,6 @@ class NpSearchInPage(BasePage):
 
     def click_xpath(self, xpath):
         # Знаходимо кнопку по XPATH та Емулюємо клік лівою кнопкою мишки
-        # self.driver.find_element(By.XPATH, '//*[@id="top_block"]/div[1]/div/div[2]/form/input[2]').click()
         self.driver.find_element(By.XPATH, xpath).click()
 
     def get_status_text(self):

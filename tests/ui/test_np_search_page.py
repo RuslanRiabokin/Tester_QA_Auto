@@ -12,7 +12,7 @@ def test_np_search_page():
     np_search_page.go_to()
 
     # Вводимо номер накладної
-    np_search_page.enter_the_invoice_number("20450928489856")
+    np_search_page.enter_the_invoice_number("20 4509 3379 6620")
 
     np_search_page.click_xpath('//*[@id="top_block"]/div[1]/div/div[2]/form/input[2]')
     time.sleep(5)
